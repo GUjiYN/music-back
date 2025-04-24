@@ -1,6 +1,6 @@
 module taylor-music-back
 
-go 1.22
+go 1.22.2
 
 toolchain go1.24.1
 
@@ -12,6 +12,7 @@ require (
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/BurntSushi/toml v1.4.0 // indirect
+	github.com/bamboo-services/bamboo-utils v0.1.5 // indirect
 	github.com/clbanning/mxj/v2 v2.7.0 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/fatih/color v1.18.0 // indirect
