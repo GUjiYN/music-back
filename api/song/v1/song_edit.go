@@ -6,7 +6,7 @@ import (
 
 type EditSongReq struct {
 	g.Meta      `path:"/song/edit" method:"post" tags:"Song" summary:"编辑歌曲"`
-	SongUuid    string `json:"songUuid" v:"required#歌曲ID不能为空" dc:"歌曲ID"`
+	SongUuid    string `json:"songUuid" in:"query" v:"required#歌曲ID不能为空" dc:"歌曲ID"`
 	SongTitle   string `json:"songTitle" v:"required#歌曲标题不能为空" dc:"歌曲标题"`
 	AlbumId     string `json:"albumId" v:"required#专辑ID不能为空" dc:"专辑ID"`
 	Duration    string `json:"duration" v:"required#时长不能为空" dc:"时长"`

@@ -14,8 +14,8 @@ func (s *sSong) CreateSong(ctx context.Context, v1 *v1.CreateSongReq) error {
 	g.Log().Notice(ctx, "[LOGIC] SongLogic:CreateSong | 创建歌曲")
 	if _, err := dao.Songs.Ctx(ctx).Data(g.Map{
 		"SongUuid":    uuid.New().String(),
-		"Title":       v1.SongTitle,
-		"AlbumUuid":   v1.AlbumId,
+		"SongTitle":   v1.SongTitle,
+		"AlbumId":     v1.AlbumId,
 		"Duration":    v1.Duration,
 		"Lyrics":      v1.Lyrics,
 		"Writer":      v1.Writer,
@@ -32,8 +32,8 @@ func (s *sSong) EditSong(ctx context.Context, v1 *v1.EditSongReq) error {
 	g.Log().Notice(ctx, "[LOGIC] SongLogic:EditSong | 编辑歌曲")
 	if _, err := dao.Songs.Ctx(ctx).Data(g.Map{
 		"SongUuid":    v1.SongUuid,
-		"Title":       v1.SongTitle,
-		"AlbumUuid":   v1.AlbumId,
+		"SongTitle":   v1.SongTitle,
+		"AlbumId":     v1.AlbumId,
 		"Duration":    v1.Duration,
 		"Lyrics":      v1.Lyrics,
 		"Writer":      v1.Writer,
