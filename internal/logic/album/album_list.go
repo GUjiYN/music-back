@@ -23,9 +23,15 @@ func (s *sAlbum) GetAlbumList(ctx context.Context, page int, size int) (getAlbum
 	// 将 albums 转换为 dto.AlbumListDTO
 	for _, album := range albums {
 		getAlbumList = append(getAlbumList, dto.AlbumListDTO{
-			AlbumUuid:   album.AlbumUuid,
-			Title:       album.Title,
-			ReleaseDate: album.ReleaseDate,
+			AlbumUuid:       album.AlbumUuid,
+			Title:           album.Title,
+			ReleaseDate:     album.ReleaseDate,
+			CoverImage:      album.CoverImage,
+			Description:     album.Description,
+			BackgroundStory: album.BackgroundStory,
+			Producer:        album.Producer,
+			CreatedAt:       album.CreatedAt,
+			UpdatedAt:       album.UpdatedAt,
 		})
 	}
 	// 检查是否获取到专辑

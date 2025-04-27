@@ -14,7 +14,7 @@ type Albums struct {
 	g.Meta          `orm:"table:albums, do:true"`
 	AlbumUuid       interface{} // 专辑表主键
 	Title           interface{} // 专辑名称
-	ReleaseDate     interface{} // 专辑发布时间
+	ReleaseDate     interface{} // 发行日期
 	CoverImage      interface{} // 专辑封面
 	Description     interface{} // 专辑描述
 	BackgroundStory interface{} // 背景故事
