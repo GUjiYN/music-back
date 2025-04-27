@@ -5,7 +5,7 @@ import "github.com/gogf/gf/v2/os/gtime"
 type AlbumListDTO struct {
 	AlbumUuid       string      `json:"album_uuid"`
 	Title           string      `json:"title"`
-	ReleaseDate     string      `json:"release_date"`
+	ReleaseDate     *gtime.Time `json:"release_date"`
 	CoverImage      string      `json:"cover_image"`
 	Description     string      `json:"description"`
 	BackgroundStory string      `json:"background"`

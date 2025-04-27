@@ -8,6 +8,7 @@ import (
 	"github.com/gogf/gf/v2/os/gcmd"
 
 	"taylor-music-back/internal/controller/album"
+	"taylor-music-back/internal/controller/song"
 )
 
 var (
@@ -21,6 +22,7 @@ var (
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
 					album.NewV1(),
+					song.NewV1(),
 				)
 			})
 			s.Run()

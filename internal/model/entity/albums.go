@@ -12,7 +12,7 @@ import (
 type Albums struct {
 	AlbumUuid       string      `json:"albumUuid"       orm:"album_uuid"       description:"专辑表主键"` // 专辑表主键
 	Title           string      `json:"title"           orm:"title"            description:"专辑名称"`  // 专辑名称
-	ReleaseDate     string      `json:"releaseDate"     orm:"release_date"     description:"发行日期"`  // 发行日期
+	ReleaseDate     *gtime.Time `json:"releaseDate"     orm:"release_date"     description:"发行日期"`  // 发行日期
 	CoverImage      string      `json:"coverImage"      orm:"cover_image"      description:"专辑封面"`  // 专辑封面
 	Description     string      `json:"description"     orm:"description"      description:"专辑描述"`  // 专辑描述
 	BackgroundStory string      `json:"backgroundStory" orm:"background_story" description:"背景故事"`  // 背景故事
