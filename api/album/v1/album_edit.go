@@ -2,7 +2,7 @@ package v1
 
 import "github.com/gogf/gf/v2/frame/g"
 
-type EditAlbumRequest struct {
+type EditAlbumReq struct {
 	g.Meta          `path:"/album/edit" method:"put" tags:"Album" summary:"编辑专辑"`
 	AlbumUuid       string `json:"albumUuid" in:"query" v:"required#专辑ID不能为空" dc:"专辑ID"`
 	Title           string `json:"title" v:"required#标题不能为空" dc:"标题"`
@@ -13,7 +13,7 @@ type EditAlbumRequest struct {
 	Producer        string `json:"producer" v:"required#唱片公司不能为空" dc:"唱片公司"`
 }
 
-type EditAlbumResponse struct {
+type EditAlbumRes struct {
 	g.Meta  `mime:"application/json"`
 	Message string `json:"message"`
 	Code    int    `json:"code"`

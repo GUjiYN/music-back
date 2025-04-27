@@ -10,12 +10,12 @@ import (
 	"taylor-music-back/internal/service"
 )
 
-func (c *ControllerV1) EditAlbum(ctx context.Context, req *v1.EditAlbumRequest) (res *v1.EditAlbumResponse, err error) {
+func (c *ControllerV1) EditAlbum(ctx context.Context, req *v1.EditAlbumReq) (res *v1.EditAlbumRes, err error) {
 	err = service.Album().EditAlbum(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	return &v1.EditAlbumResponse{
+	return &v1.EditAlbumRes{
 		Message: "编辑成功",
 		Code:    200,
 	}, nil

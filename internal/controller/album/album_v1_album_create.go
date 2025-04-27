@@ -10,12 +10,12 @@ import (
 	"taylor-music-back/internal/service"
 )
 
-func (c *ControllerV1) CreateAlbum(ctx context.Context, req *v1.CreateAlbumRequest) (res *v1.CreateAlbumResponse, err error) {
+func (c *ControllerV1) CreateAlbum(ctx context.Context, req *v1.CreateAlbumReq) (res *v1.CreateAlbumRes, err error) {
 	err = service.Album().CreateAlbum(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	return &v1.CreateAlbumResponse{
+	return &v1.CreateAlbumRes{
 		Message: "创建成功",
 		Code:    200,
 	}, nil

@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *sAlbum) CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumRequest) error {
+func (s *sAlbum) CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumReq) error {
 	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:CreateAlbum | 创建专辑")
 	if _, err := dao.Albums.Ctx(ctx).Data(g.Map{
 		"AlbumUuid":       uuid.New().String(),
@@ -26,7 +26,7 @@ func (s *sAlbum) CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumRequest) err
 	return nil
 }
 
-func (s *sAlbum) EditAlbum(ctx context.Context, v1 *v1.EditAlbumRequest) error {
+func (s *sAlbum) EditAlbum(ctx context.Context, v1 *v1.EditAlbumReq) error {
 	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:EditAlbum | 编辑专辑")
 	if _, err := dao.Albums.Ctx(ctx).Data(g.Map{
 		"AlbumUuid":       v1.AlbumUuid,
