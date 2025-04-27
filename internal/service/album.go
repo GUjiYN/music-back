@@ -13,7 +13,6 @@ import (
 
 type (
 	IAlbum interface {
-		// 获取专辑列表
 		GetAlbumList(ctx context.Context, page int, size int) (getAlbumList []dto.AlbumListDTO, err error)
 		CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumRequest) (err error)
 		EditAlbum(ctx context.Context, v1 *v1.EditAlbumRequest) (err error)
