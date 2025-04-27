@@ -40,7 +40,7 @@ func (s *sSong) EditSong(ctx context.Context, v1 *v1.EditSongReq) error {
 		"Producer":    v1.Producer,
 		"IsSingle":    v1.IsSingle,
 		"ReleaseDate": v1.ReleaseDate,
-	}).Where("SongUuid = ?", v1.SongUuid).Update(); err != nil {
+	}).Where("Song_uuid = ?", v1.SongUuid).Update(); err != nil {
 		return err
 	}
 	return nil
@@ -48,7 +48,7 @@ func (s *sSong) EditSong(ctx context.Context, v1 *v1.EditSongReq) error {
 
 func (s *sSong) DeleteSong(ctx context.Context, v1 *v1.DeleteSongReq) error {
 	g.Log().Notice(ctx, "[LOGIC] SongLogic:DeleteSong | 删除歌曲")
-	if _, err := dao.Songs.Ctx(ctx).Where("SongUuid = ?", v1.SongUuid).Delete(); err != nil {
+	if _, err := dao.Songs.Ctx(ctx).Where("Song_uuid = ?", v1.SongUuid).Delete(); err != nil {
 		return err
 	}
 	return nil
