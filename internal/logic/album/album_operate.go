@@ -3,10 +3,11 @@ package album
 import (
 	"context"
 	v1 "taylor-music-back/api/album/v1"
-
 	"taylor-music-back/internal/dao"
+	"taylor-music-back/internal/model/dto"
 
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/google/uuid"
 )
 
@@ -48,4 +49,26 @@ func (s *sAlbum) DeleteAlbum(ctx context.Context, albumUuid string) error {
 		return err
 	}
 	return nil
+}
+
+func (s *sAlbum) GetAlbumOne(ctx context.Context, albumUuid string) (getAlbumOne dto.AlbumListDTO, err error) {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:GetAlbumOne | 获取专辑详情")
+	album, err := dao.Albums.Ctx(ctx).Where("album_uuid = ?", albumUuid).One()
+	if err != nil {
+		return dto.AlbumListDTO{}, err
+	}
+	getAlbumOne = dto.AlbumListDTO{
+		AlbumUuid:       album["album_uuid"].String(),
+		Title:           album["title"].String(),
+		ReleaseDate:     gtime.NewFromTime(album["release_date"].Time()),
+		TotalSongs:      album["total_songs"].Int(),
+		TotalDuration:   album["total_duration"].String(),
+		CoverImage:      album["cover_image"].String(),
+		Description:     album["description"].String(),
+		BackgroundStory: album["background_story"].String(),
+		Producer:        album["producer"].String(),
+		CreatedAt:       gtime.NewFromTime(album["created_at"].Time()),
+		UpdatedAt:       gtime.NewFromTime(album["updated_at"].Time()),
+	}
+	return getAlbumOne, nil
 }

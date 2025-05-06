@@ -24,6 +24,8 @@ type AlbumsColumns struct {
 	AlbumUuid       string // 专辑表主键
 	Title           string // 专辑名称
 	ReleaseDate     string // 发行日期
+	TotalSongs      string // 歌曲总数
+	TotalDuration   string // 总共时长
 	CoverImage      string // 专辑封面
 	Description     string // 专辑描述
 	BackgroundStory string // 背景故事
@@ -37,6 +39,8 @@ var albumsColumns = AlbumsColumns{
 	AlbumUuid:       "album_uuid",
 	Title:           "title",
 	ReleaseDate:     "release_date",
+	TotalSongs:      "total_songs",
+	TotalDuration:   "total_duration",
 	CoverImage:      "cover_image",
 	Description:     "description",
 	BackgroundStory: "background_story",

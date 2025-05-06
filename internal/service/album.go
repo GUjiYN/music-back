@@ -18,6 +18,7 @@ type (
 		CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumReq) error
 		EditAlbum(ctx context.Context, v1 *v1.EditAlbumReq) error
 		DeleteAlbum(ctx context.Context, albumUuid string) error
+		GetAlbumOne(ctx context.Context, albumUuid string) (getAlbumOne dto.AlbumListDTO, err error)
 	}
 )
 

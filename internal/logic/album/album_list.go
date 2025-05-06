@@ -26,6 +26,8 @@ func (s *sAlbum) GetAlbumList(ctx context.Context, page int, size int) (getAlbum
 			AlbumUuid:       album.AlbumUuid,
 			Title:           album.Title,
 			ReleaseDate:     album.ReleaseDate,
+			TotalSongs:      album.TotalSongs,
+			TotalDuration:   album.TotalDuration,
 			CoverImage:      album.CoverImage,
 			Description:     album.Description,
 			BackgroundStory: album.BackgroundStory,

@@ -6,6 +6,8 @@ type AlbumListDTO struct {
 	AlbumUuid       string      `json:"album_uuid"`
 	Title           string      `json:"title"`
 	ReleaseDate     *gtime.Time `json:"release_date"`
+	TotalSongs      int         `json:"total_songs"`
+	TotalDuration   string      `json:"total_duration"`
 	CoverImage      string      `json:"cover_image"`
 	Description     string      `json:"description"`
 	BackgroundStory string      `json:"background"`

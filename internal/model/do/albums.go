@@ -15,6 +15,8 @@ type Albums struct {
 	AlbumUuid       interface{} // 专辑表主键
 	Title           interface{} // 专辑名称
 	ReleaseDate     *gtime.Time // 发行日期
+	TotalSongs      interface{} // 歌曲总数
+	TotalDuration   interface{} // 总共时长
 	CoverImage      interface{} // 专辑封面
 	Description     interface{} // 专辑描述
 	BackgroundStory interface{} // 背景故事
