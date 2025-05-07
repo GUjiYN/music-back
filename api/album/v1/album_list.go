@@ -7,9 +7,10 @@ import (
 )
 
 type GetAlbumListReq struct {
-	g.Meta `path:"/album/list" method:"get" tags:"Album" summary:"获取专辑列表"`
-	Page   int `v:"min:1#页码最小值为1" d:"1" dc:"页码"`
-	Size   int `v:"min:1#每页数量最小值为1" d:"10" dc:"每页数量"`
+	g.Meta  `path:"/album/list" method:"get" tags:"Album" summary:"获取专辑列表"`
+	Page    int    `v:"min:1#页码最小值为1" d:"1" dc:"页码"`
+	Size    int    `v:"min:1#每页数量最小值为1" d:"10" dc:"每页数量"`
+	Keyword string `d:"" dc:"搜索关键字(专辑标题)"`
 }
 
 type GetAlbumListRes struct {

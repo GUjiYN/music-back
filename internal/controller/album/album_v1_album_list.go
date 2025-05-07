@@ -8,7 +8,7 @@ import (
 
 func (c *ControllerV1) GetAlbumList(ctx context.Context, req *v1.GetAlbumListReq) (res *v1.GetAlbumListRes, err error) {
 	// 调用逻辑层方法获取专辑列表
-	albums, err := service.Album().GetAlbumList(ctx, req.Page, req.Size)
+	albums, err := service.Album().GetAlbumList(ctx, req.Page, req.Size, req.Keyword)
 	if err != nil {
 		return nil, err
 	}
