@@ -14,7 +14,7 @@ import (
 type (
 	IAlbum interface {
 		// 获取专辑列表
-		GetAlbumList(ctx context.Context, page int, size int, keyword string) (getAlbumList []dto.AlbumListDTO, err error)
+		GetAlbumList(ctx context.Context, page int, size int, keyword string) (getAlbumList []dto.AlbumListDTO, totalCount int, err error)
 		CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumReq) error
 		EditAlbum(ctx context.Context, v1 *v1.EditAlbumReq) error
 		DeleteAlbum(ctx context.Context, albumUuid string) error

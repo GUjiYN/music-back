@@ -15,9 +15,12 @@ type GetAlbumListReq struct {
 
 type GetAlbumListRes struct {
 	g.Meta `mime:"application/json" example:"json"`
-	Total  int                `json:"total"`
-	Page   int                `json:"page"`
-	Size   int                `json:"size"`
-	Pages  int                `json:"pages"`
-	List   []dto.AlbumListDTO `json:"list"`
+	Data   struct {
+		Records []dto.AlbumListDTO `json:"records"`
+		Total   int                `json:"total"`
+		Size    int                `json:"size"`
+		Current int                `json:"current"`
+	} `json:"data"`
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }

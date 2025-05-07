@@ -13,7 +13,7 @@ import (
 )
 
 // 获取专辑列表
-func (s *sAlbum) GetAlbumList(ctx context.Context, page int, size int, keyword string) (getAlbumList []dto.AlbumListDTO, err error) {
+func (s *sAlbum) GetAlbumList(ctx context.Context, page int, size int, keyword string) (getAlbumList []dto.AlbumListDTO, totalCount int, err error) {
 	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:GetAlbumList | 获取专辑列表")
 	// 从数据库获取专辑列表
 	var albums []entity.Albums
@@ -27,9 +27,15 @@ func (s *sAlbum) GetAlbumList(ctx context.Context, page int, size int, keyword s
 		g.Log().Notice(ctx, "[LOGIC] AlbumLogic:GetAlbumList | 使用关键字搜索: %s", keyword)
 	}
 
+	// 获取总记录数
+	totalCount, err = query.Count()
+	if err != nil {
+		return nil, 0, berror.NewErrorHasError(bcode.ServerInternalError, err)
+	}
+
 	// 分页查询
 	if err := query.Page(page, size).Scan(&albums); err != nil {
-		return nil, berror.NewErrorHasError(bcode.ServerInternalError, err)
+		return nil, 0, berror.NewErrorHasError(bcode.ServerInternalError, err)
 	}
 
 	// 将 albums 转换为 dto.AlbumListDTO
@@ -49,10 +55,10 @@ func (s *sAlbum) GetAlbumList(ctx context.Context, page int, size int, keyword s
 		})
 	}
 
-	// 检查是否获取到专辑
+	// 如果没有记录返回空数组而不是错误
 	if len(albums) == 0 {
-		return nil, berror.NewError(bcode.NotExist, "未查询到专辑")
+		return []dto.AlbumListDTO{}, totalCount, nil
 	}
 
-	return getAlbumList, nil
+	return getAlbumList, totalCount, nil
 }
