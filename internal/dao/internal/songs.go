@@ -21,32 +21,42 @@ type SongsDao struct {
 
 // SongsColumns defines and stores column names for the table songs.
 type SongsColumns struct {
-	SongUuid    string // 歌曲表主键
-	AlbumId     string // 专辑id
-	SongTitle   string // 歌曲标题
-	Duration    string // 歌曲时长
-	Lyrics      string // 歌词
-	Writer      string // 作词人
-	Producer    string // 作曲人
-	IsSingle    string // 是否为单曲发行
-	ReleaseDate string // 歌曲发行日期
-	CreatedAt   string // 创建时间
-	UpdatedAt   string // 更新时间
+	SongUuid       string // 歌曲表主键
+	AlbumId        string // 专辑id
+	SongTitle      string // 歌曲标题
+	Duration       string // 歌曲时长
+	Lyrics         string // 歌词
+	Writer         string // 作词人
+	Producer       string // 作曲人
+	IsSingle       string // 是否为单曲发行
+	Genre          string // 曲风
+	Label          string // 标签
+	Language       string // 语种
+	Instruments    string // 乐器
+	ReleaseDate    string // 歌曲发行日期
+	ReleaseVersion string // 发行版本
+	CreatedAt      string // 创建时间
+	UpdatedAt      string // 更新时间
 }
 
 // songsColumns holds the columns for the table songs.
 var songsColumns = SongsColumns{
-	SongUuid:    "song_uuid",
-	AlbumId:     "album_id",
-	SongTitle:   "song_title",
-	Duration:    "duration",
-	Lyrics:      "lyrics",
-	Writer:      "writer",
-	Producer:    "producer",
-	IsSingle:    "is_single",
-	ReleaseDate: "release_date",
-	CreatedAt:   "created_at",
-	UpdatedAt:   "updated_at",
+	SongUuid:       "song_uuid",
+	AlbumId:        "album_id",
+	SongTitle:      "song_title",
+	Duration:       "duration",
+	Lyrics:         "lyrics",
+	Writer:         "writer",
+	Producer:       "producer",
+	IsSingle:       "is_single",
+	Genre:          "genre",
+	Label:          "label",
+	Language:       "language",
+	Instruments:    "instruments",
+	ReleaseDate:    "release_date",
+	ReleaseVersion: "release_version",
+	CreatedAt:      "created_at",
+	UpdatedAt:      "updated_at",
 }
 
 // NewSongsDao creates and returns a new DAO object for table data access.
