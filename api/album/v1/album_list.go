@@ -21,6 +21,8 @@ type GetAlbumListRes struct {
 		Size    int                `json:"size"`
 		Current int                `json:"current"`
 	} `json:"data"`
-	Code    int    `json:"code"`
-	Message string `json:"message"`
+	Code         int         `json:"code"`
+	Message      string      `json:"message"`
+	Output       interface{} `json:"output"`
+	ErrorMessage string      `json:"error_message"`
 }

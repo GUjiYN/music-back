@@ -4,7 +4,7 @@ import "github.com/gogf/gf/v2/frame/g"
 
 type EditAlbumReq struct {
 	g.Meta          `path:"/album/edit" method:"put" tags:"Album" summary:"编辑专辑"`
-	AlbumId         string `json:"albumId" in:"query" v:"required#专辑ID不能为空" dc:"专辑ID"`
+	AlbumUuid       string `json:"albumUuid" in:"query" v:"required#专辑ID不能为空" dc:"专辑ID"`
 	Title           string `json:"title" v:"required#标题不能为空" dc:"标题"`
 	ReleaseDate     string `json:"releaseDate" v:"required#发行日期不能为空" dc:"发行日期"`
 	CoverImage      string `json:"coverImage" v:"required#封面不能为空" dc:"封面"`
