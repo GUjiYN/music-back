@@ -14,6 +14,7 @@ import (
 type (
 	ISong interface {
 		GetSongList(ctx context.Context, page int, size int) (getSongList []dto.SongListDTO, err error)
+		GetSongsByAlbum(ctx context.Context, albumId string, page int, size int) (getSongList []dto.SongListDTO, err error)
 		CreateSong(ctx context.Context, req *v1.CreateSongReq) error
 		EditSong(ctx context.Context, req *v1.EditSongReq) error
 		DeleteSong(ctx context.Context, req *v1.DeleteSongReq) error

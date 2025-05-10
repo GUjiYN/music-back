@@ -11,6 +11,10 @@ type SongListDTO struct {
 	Writer      string      `json:"writer"`
 	Producer    string      `json:"producer"`
 	IsSingle    int         `json:"isSingle"`
+	Genre       string      `json:"genre"`
+	Label       string      `json:"label"`
+	Language    string      `json:"language"`
+	Instruments string      `json:"instruments"`
 	ReleaseDate *gtime.Time `json:"releaseDate"`
 	CreatedAt   *gtime.Time `json:"createdAt"`
 	UpdatedAt   *gtime.Time `json:"updatedAt"`
