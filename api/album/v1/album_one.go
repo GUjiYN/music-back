@@ -5,8 +5,8 @@ import (
 )
 
 type GetAlbumOneReq struct {
-	g.Meta    `path:"/album/one" method:"get" tags:"Album" summary:"获取专辑详情"`
-	AlbumUuid string `json:"album_uuid" in:"query" v:"required#专辑ID不能为空"`
+	g.Meta    `path:"/album/:album_uuid" method:"get" tags:"Album" summary:"获取专辑详情"`
+	AlbumUuid string `json:"album_uuid" in:"path" v:"required#专辑ID不能为空"`
 }
 
 type GetAlbumOneRes struct {
