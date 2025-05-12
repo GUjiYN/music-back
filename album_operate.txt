@@ -1,0 +1,130 @@
+﻿package album
+
+import (
+	"context"
+	v1 "taylor-music-back/api/album/v1"
+	"taylor-music-back/internal/dao"
+	"taylor-music-back/internal/model/dto"
+
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/google/uuid"
+)
+
+func (s *sAlbum) CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumReq) error {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:CreateAlbum | 鍒涘缓涓撹緫")
+	if _, err := dao.Albums.Ctx(ctx).Data(g.Map{
+		"AlbumUuid":       uuid.New().String(),
+		"Title":           v1.Title,
+		"ReleaseDate":     v1.ReleaseDate,
+		"CoverImage":      v1.CoverImage,
+		"BackgroundStory": v1.BackgroundStory,
+		"Description":     v1.Description,
+		"Producer":        v1.Producer,
+		"TotalSongs":      0,
+		"TotalDuration":   "0:00",
+	}).Save(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *sAlbum) EditAlbum(ctx context.Context, v1 *v1.EditAlbumReq) error {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:EditAlbum | 缂栬緫涓撹緫")
+	if _, err := dao.Albums.Ctx(ctx).Data(g.Map{
+		"AlbumUuid":       v1.AlbumUuid,
+		"Title":           v1.Title,
+		"ReleaseDate":     v1.ReleaseDate,
+		"CoverImage":      v1.CoverImage,
+		"BackgroundStory": v1.BackgroundStory,
+		"Description":     v1.Description,
+		"Producer":        v1.Producer,
+	}).Where("album_uuid = ?", v1.AlbumUuid).Update(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *sAlbum) DeleteAlbum(ctx context.Context, albumUuid string) error {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:DeleteAlbum | 鍒犻櫎涓撹緫")
+
+	// 鍏堝垹闄や笌涓撹緫鍏宠仈鐨勬瓕鏇?	if _, err := dao.Songs.Ctx(ctx).Where("album_id = ?", albumUuid).Delete(); err != nil {
+		return err
+	}
+
+	// 鐒跺悗鍒犻櫎涓撹緫
+	if _, err := dao.Albums.Ctx(ctx).Where("album_uuid = ?", albumUuid).Delete(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *sAlbum) GetAlbumOne(ctx context.Context, albumUuid string) (getAlbumOne dto.AlbumListDTO, err error) {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:GetAlbumOne | 鑾峰彇涓撹緫璇︽儏")
+	album, err := dao.Albums.Ctx(ctx).Where("album_uuid = ?", albumUuid).One()
+	if err != nil {
+		return dto.AlbumListDTO{}, err
+	}
+	getAlbumOne = dto.AlbumListDTO{
+		AlbumUuid:       album["album_uuid"].String(),
+		Title:           album["title"].String(),
+		ReleaseDate:     gtime.NewFromTime(album["release_date"].Time()),
+		TotalSongs:      album["total_songs"].Int(),
+		TotalDuration:   album["total_duration"].String(),
+		CoverImage:      album["cover_image"].String(),
+		Description:     album["description"].String(),
+		BackgroundStory: album["background_story"].String(),
+		Producer:        album["producer"].String(),
+		CreatedAt:       gtime.NewFromTime(album["created_at"].Time()),
+		UpdatedAt:       gtime.NewFromTime(album["updated_at"].Time()),
+	}
+	return getAlbumOne, nil
+}
+
+// GetAlbumSongCount 鑾峰彇涓撹緫涓殑姝屾洸鏁伴噺
+func (s *sAlbum) GetAlbumSongCount(ctx context.Context, albumUuid string) (int, error) {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:GetAlbumSongCount | 鑾峰彇涓撹緫姝屾洸鏁伴噺")
+	count, err := dao.Songs.Ctx(ctx).Where("album_id = ?", albumUuid).Count()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// IncrementAlbumSongCount 澧炲姞涓撹緫姝屾洸鏁伴噺
+func (s *sAlbum) IncrementAlbumSongCount(ctx context.Context, albumUuid string) error {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:IncrementAlbumSongCount | 澧炲姞涓撹緫姝屾洸鏁伴噺")
+
+	// 鑾峰彇褰撳墠鐨勬瓕鏇叉暟閲?	currentCount, err := s.GetAlbumSongCount(ctx, albumUuid)
+	if err != nil {
+		return err
+	}
+
+	// 鏇存柊涓撹緫鐨勬瓕鏇叉暟閲?	if _, err := dao.Albums.Ctx(ctx).
+		Data(g.Map{"total_songs": currentCount}).
+		Where("album_uuid = ?", albumUuid).
+		Update(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DecrementAlbumSongCount 鍑忓皯涓撹緫姝屾洸鏁伴噺
+func (s *sAlbum) DecrementAlbumSongCount(ctx context.Context, albumUuid string) error {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:DecrementAlbumSongCount | 鍑忓皯涓撹緫姝屾洸鏁伴噺")
+
+	// 鑾峰彇褰撳墠鐨勬瓕鏇叉暟閲?	currentCount, err := s.GetAlbumSongCount(ctx, albumUuid)
+	if err != nil {
+		return err
+	}
+
+	// 鏇存柊涓撹緫鐨勬瓕鏇叉暟閲?	if _, err := dao.Albums.Ctx(ctx).
+		Data(g.Map{"total_songs": currentCount}).
+		Where("album_uuid = ?", albumUuid).
+		Update(); err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -13,7 +13,7 @@ type Songs struct {
 	SongUuid       string      `json:"songUuid"       orm:"song_uuid"       description:"歌曲表主键"`   // 歌曲表主键
 	AlbumId        string      `json:"albumId"        orm:"album_id"        description:"专辑id"`    // 专辑id
 	SongTitle      string      `json:"songTitle"      orm:"song_title"      description:"歌曲标题"`    // 歌曲标题
-	Duration       string      `json:"duration"       orm:"duration"        description:"歌曲时长"`    // 歌曲时长
+	Duration       int         `json:"duration"       orm:"duration"        description:"歌曲时长"`    // 歌曲时长
 	Lyrics         string      `json:"lyrics"         orm:"lyrics"          description:"歌词"`      // 歌词
 	Writer         string      `json:"writer"         orm:"writer"          description:"作词人"`     // 作词人
 	Producer       string      `json:"producer"       orm:"producer"        description:"作曲人"`     // 作曲人

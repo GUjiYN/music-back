@@ -19,7 +19,6 @@ type Albums struct {
 	Description     string      `json:"description"     orm:"description"      description:"专辑描述"`  // 专辑描述
 	BackgroundStory string      `json:"backgroundStory" orm:"background_story" description:"背景故事"`  // 背景故事
 	Producer        string      `json:"producer"        orm:"producer"         description:"唱片公司"`  // 唱片公司
-	SongsNumber     int         `json:"songsNumber"     orm:"songs_number"     description:"歌曲数目"`  // 歌曲数目
 	CreatedAt       *gtime.Time `json:"createdAt"       orm:"created_at"       description:"创建时间"`  // 创建时间
 	UpdatedAt       *gtime.Time `json:"updatedAt"       orm:"updated_at"       description:"更新时间"`  // 更新时间
 }

@@ -2,6 +2,9 @@ package song
 
 import (
 	"context"
+	"fmt"
+	"strconv"
+	"strings"
 	v1 "taylor-music-back/api/song/v1"
 
 	"taylor-music-back/internal/dao"
@@ -11,13 +14,47 @@ import (
 	"github.com/google/uuid"
 )
 
+// 将时间字符串(如"03:10")转换为秒数
+func timeToSeconds(timeStr string) (seconds int, err error) {
+	parts := strings.Split(timeStr, ":")
+	if len(parts) != 2 {
+		return 0, fmt.Errorf("Invalid time format, expected MM:SS, got %s", timeStr)
+	}
+
+	minutes, err := strconv.Atoi(parts[0])
+	if err != nil {
+		return 0, fmt.Errorf("Failed to parse minutes: %w", err)
+	}
+
+	secs, err := strconv.Atoi(parts[1])
+	if err != nil {
+		return 0, fmt.Errorf("Failed to parse seconds: %w", err)
+	}
+
+	return minutes*60 + secs, nil
+}
+
+// 将秒数转换为时间字符串(如"03:10")
+func secondsToTime(seconds int) string {
+	minutes := seconds / 60
+	secs := seconds % 60
+	return fmt.Sprintf("%02d:%02d", minutes, secs)
+}
+
 func (s *sSong) CreateSong(ctx context.Context, v1 *v1.CreateSongReq) error {
 	g.Log().Notice(ctx, "[LOGIC] SongLogic:CreateSong | 创建歌曲")
+
+	// 将时间字符串转换为秒数
+	durationSeconds, err := timeToSeconds(v1.Duration)
+	if err != nil {
+		return fmt.Errorf("Duration format error: %w", err)
+	}
+
 	if _, err := dao.Songs.Ctx(ctx).Data(g.Map{
 		"SongUuid":       uuid.New().String(),
 		"SongTitle":      v1.SongTitle,
 		"AlbumId":        v1.AlbumId,
-		"Duration":       v1.Duration,
+		"Duration":       durationSeconds, // 存储为秒数
 		"Lyrics":         v1.Lyrics,
 		"Writer":         v1.Writer,
 		"Producer":       v1.Producer,
@@ -51,12 +88,18 @@ func (s *sSong) EditSong(ctx context.Context, v1 *v1.EditSongReq) error {
 
 	oldAlbumId := oldSong["album_id"].String()
 
+	// 将时间字符串转换为秒数
+	durationSeconds, err := timeToSeconds(v1.Duration)
+	if err != nil {
+		return fmt.Errorf("Duration format error: %w", err)
+	}
+
 	// 更新歌曲信息
 	if _, err := dao.Songs.Ctx(ctx).Data(g.Map{
 		"SongUuid":    v1.SongUuid,
 		"SongTitle":   v1.SongTitle,
 		"AlbumId":     v1.AlbumId,
-		"Duration":    v1.Duration,
+		"Duration":    durationSeconds, // 存储为秒数
 		"Lyrics":      v1.Lyrics,
 		"Writer":      v1.Writer,
 		"Producer":    v1.Producer,
