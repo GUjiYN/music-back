@@ -30,6 +30,7 @@ type AlbumsColumns struct {
 	Description     string // 专辑描述
 	BackgroundStory string // 背景故事
 	Producer        string // 唱片公司
+	SongsNumber     string // 歌曲数目
 	CreatedAt       string // 创建时间
 	UpdatedAt       string // 更新时间
 }
@@ -45,6 +46,7 @@ var albumsColumns = AlbumsColumns{
 	Description:     "description",
 	BackgroundStory: "background_story",
 	Producer:        "producer",
+	SongsNumber:     "songs_number",
 	CreatedAt:       "created_at",
 	UpdatedAt:       "updated_at",
 }

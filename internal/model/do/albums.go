@@ -21,6 +21,7 @@ type Albums struct {
 	Description     interface{} // 专辑描述
 	BackgroundStory interface{} // 背景故事
 	Producer        interface{} // 唱片公司
+	SongsNumber     interface{} // 歌曲数目
 	CreatedAt       *gtime.Time // 创建时间
 	UpdatedAt       *gtime.Time // 更新时间
 }

@@ -13,15 +13,20 @@ import (
 func (s *sSong) CreateSong(ctx context.Context, v1 *v1.CreateSongReq) error {
 	g.Log().Notice(ctx, "[LOGIC] SongLogic:CreateSong | 创建歌曲")
 	if _, err := dao.Songs.Ctx(ctx).Data(g.Map{
-		"SongUuid":    uuid.New().String(),
-		"SongTitle":   v1.SongTitle,
-		"AlbumId":     v1.AlbumId,
-		"Duration":    v1.Duration,
-		"Lyrics":      v1.Lyrics,
-		"Writer":      v1.Writer,
-		"Producer":    v1.Producer,
-		"IsSingle":    v1.IsSingle,
-		"ReleaseDate": v1.ReleaseDate,
+		"SongUuid":       uuid.New().String(),
+		"SongTitle":      v1.SongTitle,
+		"AlbumId":        v1.AlbumId,
+		"Duration":       v1.Duration,
+		"Lyrics":         v1.Lyrics,
+		"Writer":         v1.Writer,
+		"Producer":       v1.Producer,
+		"IsSingle":       v1.IsSingle,
+		"ReleaseDate":    v1.ReleaseDate,
+		"ReleaseVersion": v1.ReleaseVersion,
+		"Language":       v1.Language,
+		"Genre":          v1.Genre,
+		"Label":          v1.Label,
+		"Instruments":    v1.Instruments,
 	}).Save(); err != nil {
 		return err
 	}

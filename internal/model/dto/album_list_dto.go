@@ -12,6 +12,7 @@ type AlbumListDTO struct {
 	Description     string      `json:"description"`
 	BackgroundStory string      `json:"background_story"`
 	Producer        string      `json:"producer"`
+	SongsNumber     int         `json:"songs_number"`
 	CreatedAt       *gtime.Time `json:"created_at"`
 	UpdatedAt       *gtime.Time `json:"updated_at"`
 }

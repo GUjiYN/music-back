@@ -3,7 +3,7 @@ package album
 import (
 	"context"
 
-	"taylor-music-back/api/album/v1"
+	v1 "taylor-music-back/api/album/v1"
 )
 
 type IAlbumV1 interface {
