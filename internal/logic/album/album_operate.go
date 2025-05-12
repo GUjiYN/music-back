@@ -81,3 +81,55 @@ func (s *sAlbum) GetAlbumOne(ctx context.Context, albumUuid string) (getAlbumOne
 	}
 	return getAlbumOne, nil
 }
+
+// GetAlbumSongCount 获取专辑中的歌曲数量
+func (s *sAlbum) GetAlbumSongCount(ctx context.Context, albumUuid string) (int, error) {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:GetAlbumSongCount | 获取专辑歌曲数量")
+	count, err := dao.Songs.Ctx(ctx).Where("album_id = ?", albumUuid).Count()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// IncrementAlbumSongCount 增加专辑歌曲数量
+func (s *sAlbum) IncrementAlbumSongCount(ctx context.Context, albumUuid string) error {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:IncrementAlbumSongCount | 增加专辑歌曲数量")
+
+	// 获取当前的歌曲数量
+	currentCount, err := s.GetAlbumSongCount(ctx, albumUuid)
+	if err != nil {
+		return err
+	}
+
+	// 更新专辑的歌曲数量
+	if _, err := dao.Albums.Ctx(ctx).
+		Data(g.Map{"total_songs": currentCount}).
+		Where("album_uuid = ?", albumUuid).
+		Update(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DecrementAlbumSongCount 减少专辑歌曲数量
+func (s *sAlbum) DecrementAlbumSongCount(ctx context.Context, albumUuid string) error {
+	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:DecrementAlbumSongCount | 减少专辑歌曲数量")
+
+	// 获取当前的歌曲数量
+	currentCount, err := s.GetAlbumSongCount(ctx, albumUuid)
+	if err != nil {
+		return err
+	}
+
+	// 更新专辑的歌曲数量
+	if _, err := dao.Albums.Ctx(ctx).
+		Data(g.Map{"total_songs": currentCount}).
+		Where("album_uuid = ?", albumUuid).
+		Update(); err != nil {
+		return err
+	}
+
+	return nil
+}

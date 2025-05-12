@@ -19,6 +19,12 @@ type (
 		EditAlbum(ctx context.Context, v1 *v1.EditAlbumReq) error
 		DeleteAlbum(ctx context.Context, albumUuid string) error
 		GetAlbumOne(ctx context.Context, albumUuid string) (getAlbumOne dto.AlbumListDTO, err error)
+		// 获取专辑中的歌曲数量
+		GetAlbumSongCount(ctx context.Context, albumUuid string) (int, error)
+		// 增加专辑歌曲数量
+		IncrementAlbumSongCount(ctx context.Context, albumUuid string) error
+		// 减少专辑歌曲数量
+		DecrementAlbumSongCount(ctx context.Context, albumUuid string) error
 	}
 )
 
