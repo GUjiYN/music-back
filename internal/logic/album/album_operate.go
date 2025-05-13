@@ -2,14 +2,51 @@ package album
 
 import (
 	"context"
+	"fmt"
 	v1 "taylor-music-back/api/album/v1"
 	"taylor-music-back/internal/dao"
 	"taylor-music-back/internal/model/dto"
+	"taylor-music-back/internal/model/entity"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/google/uuid"
 )
+
+// 计算专辑总播放时间并格式化为小时:分钟:秒
+func (s *sAlbum) calculateAlbumTotalDuration(ctx context.Context, albumUuid string) (string, error) {
+	var songs []entity.Songs
+	err := dao.Songs.Ctx(ctx).Where("album_id", albumUuid).Scan(&songs)
+	if err != nil {
+		return "", err
+	}
+
+	// 计算总时长（秒）
+	var totalDurationSeconds int
+	for _, song := range songs {
+		totalDurationSeconds += song.Duration
+	}
+
+	// 转换为小时:分钟:秒格式
+	hours := totalDurationSeconds / 3600
+	minutes := (totalDurationSeconds % 3600) / 60
+	seconds := totalDurationSeconds % 60
+	return fmt.Sprintf("%02d:%02d:%02d", hours, minutes, seconds), nil
+}
+
+// 更新专辑总播放时间
+func (s *sAlbum) updateAlbumTotalDuration(ctx context.Context, albumUuid string) error {
+	duration, err := s.calculateAlbumTotalDuration(ctx, albumUuid)
+	if err != nil {
+		return err
+	}
+
+	_, err = dao.Albums.Ctx(ctx).
+		Data(g.Map{"total_duration": duration}).
+		Where("album_uuid = ?", albumUuid).
+		Update()
+	return err
+}
 
 func (s *sAlbum) CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumReq) error {
 	g.Log().Notice(ctx, "[LOGIC] AlbumLogic:CreateAlbum | 创建专辑")
@@ -22,7 +59,7 @@ func (s *sAlbum) CreateAlbum(ctx context.Context, v1 *v1.CreateAlbumReq) error {
 		"Description":     v1.Description,
 		"Producer":        v1.Producer,
 		"TotalSongs":      0,
-		"TotalDuration":   "0:00",
+		"TotalDuration":   "00:00:00",
 	}).Save(); err != nil {
 		return err
 	}
@@ -110,6 +147,11 @@ func (s *sAlbum) IncrementAlbumSongCount(ctx context.Context, albumUuid string) 
 		return err
 	}
 
+	// 更新总播放时间
+	if err := s.updateAlbumTotalDuration(ctx, albumUuid); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -128,6 +170,11 @@ func (s *sAlbum) DecrementAlbumSongCount(ctx context.Context, albumUuid string) 
 		Data(g.Map{"total_songs": currentCount}).
 		Where("album_uuid = ?", albumUuid).
 		Update(); err != nil {
+		return err
+	}
+
+	// 更新总播放时间
+	if err := s.updateAlbumTotalDuration(ctx, albumUuid); err != nil {
 		return err
 	}
 

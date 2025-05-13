@@ -2,6 +2,7 @@ package album
 
 import (
 	"context"
+	"fmt"
 	"taylor-music-back/internal/dao"
 	"taylor-music-back/internal/model/dto"
 	"taylor-music-back/internal/model/entity"
@@ -40,12 +41,31 @@ func (s *sAlbum) GetAlbumList(ctx context.Context, page int, size int, keyword s
 
 	// 将 albums 转换为 dto.AlbumListDTO
 	for _, album := range albums {
+		// 获取专辑下所有歌曲并计算总时长
+		var songs []entity.Songs
+		err := dao.Songs.Ctx(ctx).Where("album_id", album.AlbumUuid).Scan(&songs)
+		if err != nil {
+			return nil, 0, berror.NewErrorHasError(bcode.ServerInternalError, err)
+		}
+
+		// 计算总时长（秒）
+		var totalDurationSeconds int
+		for _, song := range songs {
+			totalDurationSeconds += song.Duration
+		}
+
+		// 转换为小时:分钟:秒格式
+		hours := totalDurationSeconds / 3600
+		minutes := (totalDurationSeconds % 3600) / 60
+		seconds := totalDurationSeconds % 60
+		formattedDuration := fmt.Sprintf("%02d:%02d:%02d", hours, minutes, seconds)
+
 		getAlbumList = append(getAlbumList, dto.AlbumListDTO{
 			AlbumUuid:       album.AlbumUuid,
 			Title:           album.Title,
 			ReleaseDate:     album.ReleaseDate,
 			TotalSongs:      album.TotalSongs,
-			TotalDuration:   album.TotalDuration,
+			TotalDuration:   formattedDuration,
 			CoverImage:      album.CoverImage,
 			Description:     album.Description,
 			BackgroundStory: album.BackgroundStory,
